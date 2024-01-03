@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/candy_background"
+    android:background="#fceaf8"
     tools:context=".MainActivity">
+
 
     <!-- Score Section -->
     <LinearLayout
@@ -29,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Score"
-                android:textColor="#e8dcd2"
+                android:textColor="#ffe5f1"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -62,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Best Score"
-                android:textColor="#e8dcd2"
+                android:textColor="#ffe5f1"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -78,6 +79,7 @@
 
     </LinearLayout>
     <!-- New Game Button -->
+
     <Button
         android:id="@+id/newGameButton"
         android:layout_width="wrap_content"
@@ -86,7 +88,7 @@
         android:layout_marginRight="16dp"
         android:text="New Game"
         android:textSize="20sp"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <!-- Game Board -->
     <LinearLayout
@@ -97,13 +99,24 @@
 
         <GridLayout
             android:id="@+id/board"
-            android:background="#faf8ef"
+            android:background="#fceaf8"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
     <!-- Game Over Text -->
+
+
+    <Button
+        android:id="@+id/shuffleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Shuffle"
+        android:textSize="20sp"
+        android:layout_marginTop="16dp" />
+
 
     <!-- Timer -->
 
@@ -122,8 +135,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="#faf8ef"
-        android:textColor="#000"
+        android:textColor="#a88af5"
         android:textSize="20sp"
         android:text="Timer: 60s"
         android:padding="16dp" />

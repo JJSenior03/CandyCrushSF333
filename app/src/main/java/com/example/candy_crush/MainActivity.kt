@@ -20,16 +20,24 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import android.view.animation.AlphaAnimation
+import android.widget.RelativeLayout
+import android.view.animation.AnimationSet
+import android.view.animation.Animation
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.graphics.Color
+import com.example.candy_crush.R
 
 class MainActivity : AppCompatActivity() {
 
     var candies = intArrayOf(
-        R.drawable.bluecandy,
-        R.drawable.greencandy,
-        R.drawable.orangecandy,
-        R.drawable.purplecandy,
-        R.drawable.redcandy,
-        R.drawable.yellowcandy,
+        R.drawable.bluecandy2,
+        R.drawable.greencandy2,
+        R.drawable.whitecandy2,
+        R.drawable.purplecandy2,
+        R.drawable.redcandy2,
+        R.drawable.blackcandy2,
     )
 
     var widthOfBlock :Int = 0
@@ -54,7 +62,11 @@ class MainActivity : AppCompatActivity() {
     private var gameDuration: Long = 60000 // 60 seconds for the game duration
     private var countDownTimer: CountDownTimer? = null
     private lateinit var newGameButton: Button
+    private lateinit var shuffleButton: Button
     private lateinit var gameOverText: TextView
+
+    private var fireworkPopup: PopupWindow? = null
+
 
 
 
@@ -64,6 +76,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         gameOverText = findViewById(R.id.gameOverText)
         newGameButton = findViewById(R.id.newGameButton)
@@ -85,6 +98,16 @@ class MainActivity : AppCompatActivity() {
 
         candy = ArrayList()
         createBoard()
+
+        shuffleButton = findViewById(R.id.shuffleButton)
+        shuffleButton.setOnClickListener {
+            if (isGameOngoing) {
+                shuffleCandies()
+                moveDownCandies()
+            }
+        }
+
+        val animationSet = AnimationSet(true)
 
         for (imageView in candy) {
             imageView.setOnTouchListener(
@@ -140,7 +163,17 @@ class MainActivity : AppCompatActivity() {
         loadBestScore()
         mHandler = Handler()
         startRepeat()
+
+        val newGameButton: Button = findViewById(R.id.newGameButton)
+        newGameButton.setBackgroundColor(Color.parseColor("#c78cff"))
+
+        val shuffleButton: Button = findViewById(R.id.shuffleButton)
+        shuffleButton.setBackgroundColor(Color.parseColor("#c78cff"))
+
+
     }
+
+
 
     private fun resetGame() {
         score = 0
@@ -205,8 +238,50 @@ class MainActivity : AppCompatActivity() {
         // Lock the board when the game ends
         newGameButton.visibility = View.VISIBLE
 
+        // Display firework animation
+        showFireworkAnimation()
+
         isGameOngoing = false
     }
+    private fun showFireworkAnimation() {
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val fireworkView = inflater.inflate(R.layout.firework_overlay, null)
+
+        fireworkPopup = PopupWindow(
+            fireworkView,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+
+        fireworkPopup?.showAtLocation(fireworkView, Gravity.CENTER, 0, 0)
+
+        val fireworkImageView = fireworkView.findViewById<ImageView>(R.id.fireworkImageView)
+
+        // Start fadeIn animation
+        val fadeIn = ObjectAnimator.ofFloat(fireworkImageView, "alpha", 0f, 1f)
+        fadeIn.duration = 2000 // Adjust the duration as needed
+
+        // Start fadeOut animation after a delay
+        fadeIn.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                // Delay before starting the fade-out animation
+                Handler().postDelayed({
+                    val fadeOut = ObjectAnimator.ofFloat(fireworkImageView, "alpha", 1f, 0f)
+                    fadeOut.duration = 2000 // Adjust the duration as needed
+                    fadeOut.addListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            // Dismiss the PopupWindow when the animation ends
+                            fireworkPopup?.dismiss()
+                        }
+                    })
+                    fadeOut.start()
+                }, 5000) // 5000 milliseconds delay (5 seconds)
+            }
+        })
+
+        fadeIn.start()
+    }
+
 
 
     private fun saveBestScore(score: Int) {

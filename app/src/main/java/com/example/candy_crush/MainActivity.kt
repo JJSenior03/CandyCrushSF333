@@ -3,7 +3,6 @@ package com.example.candy_crush
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.DisplayMetrics
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,32 +11,25 @@ import java.util.Arrays.asList
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.CountDownTimer
-import android.view.animation.LinearInterpolator
-import android.widget.Toast
 import android.widget.PopupWindow
 import android.view.LayoutInflater
 import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
-import android.view.animation.AlphaAnimation
-import android.widget.RelativeLayout
 import android.view.animation.AnimationSet
-import android.view.animation.Animation
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.graphics.Color
-import com.example.candy_crush.R
 
 class MainActivity : AppCompatActivity() {
 
     var candies = intArrayOf(
-        R.drawable.bluecandy2,
-        R.drawable.greencandy2,
-        R.drawable.whitecandy2,
-        R.drawable.purplecandy2,
-        R.drawable.redcandy2,
-        R.drawable.blackcandy2,
+        R.drawable.kitty,
+        R.drawable.keropi,
+        R.drawable.kuromi,
+        R.drawable.mymelody,
+        R.drawable.pompompurin,
     )
 
     var widthOfBlock :Int = 0
@@ -119,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                         candyToBeReplaced = candyToBeDragged + 1
 
                         if (positions.contains(candyToBeReplaced)) {
-                            candyInterChacge()
+                            candyInterChange()
                         }
 
                     }
@@ -131,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                         candyToBeReplaced = candyToBeDragged - 1
 
                         if (positions.contains(candyToBeReplaced)) {
-                            candyInterChacge()
+                            candyInterChange()
                         }
 
                     }
@@ -142,7 +134,7 @@ class MainActivity : AppCompatActivity() {
                         candyToBeReplaced = candyToBeDragged - noOfBlock
 
                         if (positions.contains(candyToBeReplaced)) {
-                            candyInterChacge()
+                            candyInterChange()
                         }
 
                     }
@@ -153,7 +145,7 @@ class MainActivity : AppCompatActivity() {
                         candyToBeReplaced = candyToBeDragged + noOfBlock
 
                         if (positions.contains(candyToBeReplaced)) {
-                            candyInterChacge()
+                            candyInterChange()
                         }
 
                     }
@@ -297,7 +289,7 @@ class MainActivity : AppCompatActivity() {
         bestScoreResult.text = "$bestScore"
     }
 
-    private fun candyInterChacge() {
+    private fun candyInterChange() {
         // Check if the game is ongoing before swapping candies
         if (isGameOngoing) {
             var background: Int = candy.get(candyToBeReplaced).tag as Int

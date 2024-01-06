@@ -1,4 +1,4 @@
-package com.example.candy_crush.uiltel
+package com.example.candy_crush.utils
 
 import android.content.Context
 import android.view.GestureDetector

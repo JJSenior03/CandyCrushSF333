@@ -6,7 +6,7 @@ import android.os.Handler
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.candy_crush.uiltel.OnSwipeListener
+import com.example.candy_crush.utils.OnSwipeListener
 import java.util.Arrays.asList
 import android.animation.ObjectAnimator
 import android.content.Context

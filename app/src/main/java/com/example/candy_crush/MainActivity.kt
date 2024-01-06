@@ -50,8 +50,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bestScoreResult: TextView
     private var bestScore = 0
 
-    private lateinit var timerTextView: TextView // TextView to show the timer
-    private var gameDuration: Long = 60000 // 60 seconds for the game duration
+    private lateinit var timerTextView: TextView
+    private var gameDuration: Long = 60000
     private var countDownTimer: CountDownTimer? = null
     private lateinit var newGameButton: Button
     private lateinit var shuffleButton: Button
@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    // Declare a boolean variable to track the game state
     var isGameOngoing = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -201,14 +200,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetBestScore() {
-        saveBestScore(bestScore) // Save the updated best score in SharedPreferences
-        bestScoreResult.text = "$bestScore" // Update the displayed best score
+        saveBestScore(bestScore)
+        bestScoreResult.text = "$bestScore"
     }
 
     private fun startGame() {
         startCountDownTimer()
-        // Reset or initialize other game states as needed
-        isGameOngoing = true // Set the game as ongoing
+        isGameOngoing = true
     }
 
     private fun startCountDownTimer() {
@@ -230,21 +228,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun endGame() {
-        // Check if the current score is higher than the best score
         if (score > bestScore) {
             bestScore = score
             saveBestScore(bestScore)
         }
 
-        // Show the "Game Over" text
         gameOverText.visibility = View.VISIBLE
-
-        // Lock the board when the game ends
         newGameButton.visibility = View.VISIBLE
-
         numShuffle = 0
         shuffleButton.visibility = View.VISIBLE
-        // Display firework animation
+
         showFireworkAnimation()
 
         isGameOngoing = false
@@ -263,25 +256,21 @@ class MainActivity : AppCompatActivity() {
 
         val fireworkImageView = fireworkView.findViewById<ImageView>(R.id.fireworkImageView)
 
-        // Start fadeIn animation
         val fadeIn = ObjectAnimator.ofFloat(fireworkImageView, "alpha", 0f, 1f)
-        fadeIn.duration = 2000 // Adjust the duration as needed
+        fadeIn.duration = 1500
 
-        // Start fadeOut animation after a delay
         fadeIn.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                // Delay before starting the fade-out animation
                 Handler().postDelayed({
                     val fadeOut = ObjectAnimator.ofFloat(fireworkImageView, "alpha", 1f, 0f)
-                    fadeOut.duration = 2000 // Adjust the duration as needed
+                    fadeOut.duration = 1500
                     fadeOut.addListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator) {
-                            // Dismiss the PopupWindow when the animation ends
                             fireworkPopup?.dismiss()
                         }
                     })
                     fadeOut.start()
-                }, 5000) // 5000 milliseconds delay (5 seconds)
+                }, 4000)
             }
         })
 
@@ -304,12 +293,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun candyInterChange() {
-        // Check if the game is ongoing before swapping candies
         if (isGameOngoing) {
             var background: Int = candy.get(candyToBeReplaced).tag as Int
             var background1: Int = candy.get(candyToBeDragged).tag as Int
 
-            // Check if the candies are different and adjacent
             if (background != background1 && areAdjacent(candyToBeDragged, candyToBeReplaced)) {
                 candy.get(candyToBeDragged).setImageResource(background)
                 candy.get(candyToBeReplaced).setImageResource(background1)
@@ -321,7 +308,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun areAdjacent(index1: Int, index2: Int): Boolean {
-        // Check if the candies are adjacent (horizontally or vertically)
         return (index1 + 1 == index2 && index1 / noOfBlock == index2 / noOfBlock) || // Right
                 (index1 - 1 == index2 && index1 / noOfBlock == index2 / noOfBlock) || // Left
                 (index1 + noOfBlock == index2) || // Bottom
@@ -329,7 +315,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkRowForMoreThanThree() {
-        // Check if the game is ongoing before checking for matches
         if (isGameOngoing) {
             for (i in 0 until candy.size - 2) {
                 var chosenCandy = candy[i].tag as Int
@@ -357,7 +342,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkColumnForMoreThanThree() {
-        // Check if the game is ongoing before checking for matches
         if (isGameOngoing) {
             for (i in 0 until candy.size - 2 * noOfBlock) {
                 var chosenCandy = candy[i].tag as Int
@@ -387,7 +371,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun moveDownCandies() {
-        // Check if the game is ongoing before moving down candies
         if (isGameOngoing) {
             val firstRow = arrayOf(1, 2, 3, 4, 5, 6, 7)
             val list = asList(*firstRow)
@@ -440,7 +423,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startRepeat() {
-        // Check if the game is ongoing before starting the repeat
         if (isGameOngoing) {
             repeatChecker.run()
         }

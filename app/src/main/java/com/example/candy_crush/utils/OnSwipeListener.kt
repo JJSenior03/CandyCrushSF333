@@ -20,7 +20,6 @@ open class OnSwipeListener (context :Context?) : View.OnTouchListener
         val SWIPE_THRESOLD = 100
         val SWIPE_VELOCITY_THRESOLD = 100
 
-        // Erro do tutorial: forma de escrita
         override fun onDown(e: MotionEvent): Boolean {
             return true
         }

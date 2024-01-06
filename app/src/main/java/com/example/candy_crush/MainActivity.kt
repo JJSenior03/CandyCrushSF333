@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity() {
         score = 0
         scoreResult.text = "0"
 
-
+        stopCountDownTimer()
         shuffleCandies()
         numShuffle = 0
         startRepeat()
@@ -222,6 +222,11 @@ class MainActivity : AppCompatActivity() {
                 endGame()
             }
         }.start()
+    }
+
+    private fun stopCountDownTimer() {
+        countDownTimer?.cancel()
+        countDownTimer = null
     }
 
     private fun endGame() {

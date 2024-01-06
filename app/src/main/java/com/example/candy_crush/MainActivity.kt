@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var scoreResult :TextView
     var score = 0
     var interval = 100L
-
+    var numShuffle = 0
     var positions = 0..63
 
     private lateinit var bestScoreResult: TextView
@@ -171,16 +171,20 @@ class MainActivity : AppCompatActivity() {
         score = 0
         scoreResult.text = "0"
 
+
         shuffleCandies()
+        numShuffle = 0
         startRepeat()
         startGame()
         newGameButton.visibility = View.INVISIBLE
         gameOverText.visibility = View.INVISIBLE
+        shuffleButton.visibility = View.VISIBLE
 
         resetBestScore()
     }
 
     private fun shuffleCandies() {
+        numShuffle += 1
         val n = candy.size
         for (i in n - 1 downTo 1) {
             val j = (Math.random() * (i + 1)).toInt()
@@ -190,6 +194,9 @@ class MainActivity : AppCompatActivity() {
             candy[i].setTag(candy[j].tag as Int)
             candy[j].setImageResource(temp)
             candy[j].setTag(temp)
+        }
+        if (numShuffle==3) {
+            shuffleButton.visibility = View.INVISIBLE
         }
     }
 
@@ -230,6 +237,8 @@ class MainActivity : AppCompatActivity() {
         // Lock the board when the game ends
         newGameButton.visibility = View.VISIBLE
 
+        numShuffle = 0
+        shuffleButton.visibility = View.VISIBLE
         // Display firework animation
         showFireworkAnimation()
 
@@ -452,6 +461,8 @@ class MainActivity : AppCompatActivity() {
 
             imageView.setImageResource(candies[random])
             imageView.setTag(candies[random])
+
+            imageView.setBackgroundResource(R.drawable.rounded_boarder)
 
             candy.add(imageView)
             gridLayout.addView(imageView)
